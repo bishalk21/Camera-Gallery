@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="video-container">
-      <video src="" id="video-player"></video>
+      <video autoplay id="video-player"></video>
     </div>
     <div class="actions-container">
       <div class="record-btn-container action-btn">
@@ -21,6 +21,19 @@
     <div class="timer-container">
       <span id="timer">00:00:00</span>
     </div>
+
+    <div class="filter-container">
+      <button class="filter-btn orange" data-filter="none"></button>
+      <button
+        class="filter-btn grayscale"
+        data-filter="grayscale(100%)"
+      ></button>
+      <button class="filter-btn sepia" data-filter="sepia(100%)"></button>
+      <button class="filter-btn invert" data-filter="invert(100%)"></button>
+    </div>
+
+    <div class="filter-layer"></div>
+
     <script src="./script.js"></script>
   </body>
 </html>

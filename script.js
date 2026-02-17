@@ -105,3 +105,18 @@ function stopTimer() {
   // timer.textContent = "00:00:00";
   timer.innerText = "00:00:00";
 }
+
+captureBtnContainer.addEventListener("click", (e) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = videoPlayer.videoWidth; // set canvas width to video width
+  canvas.height = videoPlayer.videoHeight; // set canvas height to video height
+  const ctx = canvas.getContext("2d"); // get the 2D drawing context of the canvas
+  ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height); // draw the current video frame onto the canvas
+
+  let imageDataURL = canvas.toDataURL();
+  // create a link element to download the captured image
+  let a = document.createElement("a");
+  a.href = imageDataURL;
+  a.download = "captured-image.png";
+  a.click();
+});

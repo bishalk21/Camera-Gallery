@@ -1,4 +1,4 @@
-# Camera + Gallery Application (Loom)
+# Camera + Gallery Application [Camera + Gallery App]
 
 - Heavy Browser APIs Usage
   - Media Stream API
@@ -11,7 +11,7 @@
 
 ## Features
 
-- Image capturing with filters (grayscale, sepia, invert)
+- Image capturing with filters (grayscale, sepia, invert) and download option
 - Video recording
 - Gallery to view recorded videos (in browser)
 
@@ -29,6 +29,11 @@
 ## MediaRecorder API for recording video streams
 
 > https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
+> https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/ondataavailable
+
+## Canvas API for video preview and image manipulation
+
+> https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
 ## Notes
 
@@ -75,6 +80,18 @@
 - Takes a constraints object to specify media types and settings
 
 **Stream (data from media input devices) comes in chunks, and the MediaRecorder API allows us to record these streams and save them as video files.**
+
+## Images
+
+- video is collection of images (frames)
+- to capture an image from the video stream, we can use a canvas element to draw the current video frame and then convert it to an image format (e.g., PNG, JPEG) for download or display
+- get the video stream from the camera using navigator.mediaDevices.getUserMedia()
+- create a canvas element and draw the current video frame onto the canvas
+- apply filters to the canvas (grayscale, sepia, invert) using canvas context's filter property
+
+## Canvas API for video preview and image manipulation
+
+- Canvas API allows us to draw graphics and manipulate images on a web page using JavaScript
 
 1. get element video
 2. navigator.mediaDevices.getUserMedia() with constraints for video and audio
