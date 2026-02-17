@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,14 +7,19 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="video-container"></div>
+    <div class="video-container">
+      <video src="" id="video-player"></video>
+    </div>
     <div class="actions-container">
-      <div class="record-button-container">
-        <div class="record-button action-button"></div>
+      <div class="record-btn-container action-btn">
+        <div class="record-btn scale-recor" title="Record"></div>
       </div>
-      <div class="capture-button-container">
-        <div class="capture-button action-button"></div>
+      <div class="capture-btn-container action-btn">
+        <div class="capture-btn scale-captur" title="Capture"></div>
       </div>
+    </div>
+    <div class="timer-container">
+      <span id="timer">00:00:00</span>
     </div>
     <script src="./script.js"></script>
   </body>
