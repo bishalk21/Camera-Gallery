@@ -35,6 +35,10 @@
 
 > https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 
+## IndexedDB for storing recorded videos
+
+> https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API
+
 ## Notes
 
 ### Video Element
@@ -93,6 +97,25 @@
 
 - Canvas API allows us to draw graphics and manipulate images on a web page using JavaScript
 
+## IndexedDB for storing recorded videos
+
+- IndexedDB is a low-level API for client-side storage of significant amounts of structured data, including files/blobs
+- It allows us to store and retrieve video files in the browser, enabling a gallery feature for recorded videos
+- it is event-driven and asynchronous, meaning that operations like adding, retrieving, or deleting data are performed using events and callbacks rather than blocking the main thread
+- it is stored in key-value pairs, where the key is a unique identifier for the data and the value can be any JavaScript object, including blobs (binary large objects) which are used to store video files
+- how to use IndexedDB:
+  1. Open a database using indexedDB.open() method, which returns an IDBOpenDBRequest object
+  2. Handle the onupgradeneeded event to create object stores and indexes if the database is being created or upgraded
+  3. Handle the onsuccess event to get a reference to the opened database (IDBDatabase object)
+  4. Use transactions to perform read/write operations on the database, such as adding video blobs, retrieving stored videos, or deleting videos from the gallery
+
+### LocalStorage vs IndexedDB
+
+- LocalStorage is a simple key-value storage mechanism that is synchronous and has a storage limit of around 5MB per origin. It is suitable for storing small amounts of data, such as user preferences or session information. It can only store string data, so if you want to store objects or arrays, you need to serialize them using JSON.stringify() and deserialize them using JSON.parse() when retrieving the data.
+- IndexedDB is a more powerful and complex storage mechanism that is asynchronous and can store large amounts of structured data, including files and blobs. It is suitable for applications that require offline capabilities or need to store large amounts of data, such as a video gallery. It provides a more flexible data model, allowing you to store objects with multiple properties and query them using indexes. IndexedDB is also more efficient for storing and retrieving large binary data, such as video files, compared to LocalStorage.
+
+Since captured images and recorded videos can be large in size, IndexedDB is a better choice for storing them compared to LocalStorage.
+
 1. get element video
 2. navigator.mediaDevices.getUserMedia() with constraints for video and audio
 3. If permission granted, set video.srcObject to the MediaStream object returned by getUserMedia()
@@ -102,4 +125,7 @@
 7. chunks of recorded video data are stored in an array on dataavailable event
 8. when recording is stopped, the chunks are combined into a Blob and
    a URL is created for the Blob to be used as the source for the video element in the gallery
-9. function for timer to show recording duration and stop recording after a certain time limit (e.g., 5 minutes)
+9. function for timer to show recording duration and stop recording
+10. filter layer to apply visual effects to the video stream using CSS filters (grayscale, sepia, invert)
+11. using canvas fillStyle and fillRect to create a semi-transparent overlay for the filter effects
+12. applying filters to the filter layer by getting color values using getComputedStyle and setting the filter property of the filter layer accordingly

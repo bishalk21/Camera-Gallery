@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera Gallery</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
@@ -12,10 +17,10 @@
     </div>
     <div class="actions-container">
       <div class="record-btn-container action-btn">
-        <div class="record-btn scale-recor" title="Record"></div>
+        <div class="record-btn scale-record" title="Record"></div>
       </div>
       <div class="capture-btn-container action-btn">
-        <div class="capture-btn scale-captur" title="Capture"></div>
+        <div class="capture-btn scale-capture" title="Capture"></div>
       </div>
     </div>
     <div class="timer-container">
@@ -23,17 +28,25 @@
     </div>
 
     <div class="filter-container">
-      <button class="filter-btn orange" data-filter="none"></button>
-      <button
-        class="filter-btn grayscale"
-        data-filter="grayscale(100%)"
-      ></button>
-      <button class="filter-btn sepia" data-filter="sepia(100%)"></button>
-      <button class="filter-btn invert" data-filter="invert(100%)"></button>
+      <button class="filter-btn orange" data-filter="orange"></button>
+      <button class="filter-btn grayscale" data-filter="grayscale"></button>
+      <button class="filter-btn sepia" data-filter="sepia"></button>
+      <button class="filter-btn invert" data-filter="invert"></button>
     </div>
 
     <div class="filter-layer"></div>
 
+    <span class="material-icons gallery-icon">photo_library</span>
+
+    <script src="https://unpkg.com/shortid-dist@1.0.5/dist/shortid-2.2.13.min.js"></script>
+    <script src="./db.js"></script>
     <script src="./script.js"></script>
+    <script>
+      let galleryBtn = document.querySelector(".gallery-icon");
+      galleryBtn.addEventListener("click", () => {
+        // window.location.href = "./gallery.html";
+        location.assign("./gallery.html");
+      });
+    </script>
   </body>
 </html>

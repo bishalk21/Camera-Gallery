@@ -35,7 +35,7 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
     chunks = [];
   });
   recorder.ondataavailable = (e) => {
-    console.log(e.data);
+    // console.log(e.data);
     chunks.push(e.data);
   };
   recorder.addEventListener("stop", () => {
@@ -44,13 +44,27 @@ navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
     // which is determined by the MIME type of the MediaRecorder (e.g., "video/webm" or "video/mp4")
     // let blob = new Blob(chunks, { type: "video/webm" });
     let blob = new Blob(chunks, { type: "video/mp4" });
+
+    // TODO 3 - make transactions to add video blobs and metadata to the IndexedDB when a recording is stopped
+    if (db) {
+      let id = shortid();
+      let dbTransaction = db.transaction("video", "readwrite");
+      let videoStore = dbTransaction.objectStore("video");
+      let videoRecord = {
+        id: `video-${Date.now()}-${id}`,
+        blobData: blob,
+        createdAt: new Date(),
+      };
+      videoStore.add(videoRecord);
+    }
+
     // create a URL for the Blob and
     // set it as the href of a link element to download the video file
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "recorded-video.mp4";
-    a.click();
+    // let url = URL.createObjectURL(blob);
+    // let a = document.createElement("a");
+    // a.href = url;
+    // a.download = "recorded-video.mp4";
+    // a.click();
   });
 });
 
@@ -106,17 +120,56 @@ function stopTimer() {
   timer.innerText = "00:00:00";
 }
 
+let transparentColor = "transparent";
+let filterLayer = document.querySelector(".filter-layer");
+let filterButtons = document.querySelectorAll(".filter-btn");
+filterButtons.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    // get the filter type from the data-filter attribute of the clicked button
+    // let filterType = e.target.dataset.filter;
+    // get the computed background color of the clicked button to use as the transparent color for the filter layer
+    transparentColor = getComputedStyle(e.target).getPropertyValue(
+      "background-color",
+    );
+    console.log(transparentColor);
+    // set the background color of the filter layer to the transparent color to apply the filter effect
+    filterLayer.style.backgroundColor = transparentColor;
+  });
+});
+
 captureBtnContainer.addEventListener("click", (e) => {
+  captureBtn.classList.add("scale-capture");
+  setTimeout(() => {
+    captureBtn.classList.remove("scale-capture");
+  }, 500);
   const canvas = document.createElement("canvas");
   canvas.width = videoPlayer.videoWidth; // set canvas width to video width
   canvas.height = videoPlayer.videoHeight; // set canvas height to video height
   const ctx = canvas.getContext("2d"); // get the 2D drawing context of the canvas
   ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height); // draw the current video frame onto the canvas
 
+  // filter layer to apply visual effects to the video stream using CSS filters (grayscale, sepia, invert)
+  // using canvas fillStyle and fillRect to create a semi-transparent overlay for the filter effects
+  ctx.fillStyle = transparentColor; // set fill style to the transparent color of the selected filter button
+  ctx.fillRect(0, 0, canvas.width, canvas.height); // draw a rectangle over the entire canvas to apply the filter effect
+
   let imageDataURL = canvas.toDataURL();
+
+  if (db) {
+    let id = shortid();
+    let dbTransaction = db.transaction("image", "readwrite");
+    let imageStore = dbTransaction.objectStore("image");
+    let imageRecord = {
+      id: `image-${Date.now()}-${id}`,
+      url: imageDataURL,
+      createdAt: new Date(),
+    };
+    imageStore.add(imageRecord);
+  }
+
   // create a link element to download the captured image
-  let a = document.createElement("a");
-  a.href = imageDataURL;
-  a.download = "captured-image.png";
-  a.click();
+  // let a = document.createElement("a");
+  // a.href = imageDataURL;
+  // a.download = "captured-image.png";
+  // a.click();
 });
